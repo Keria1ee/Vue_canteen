@@ -52,7 +52,7 @@ const rules = {
 const register = async () => {
   try {
     let result = await userRegisterService(registerdata.value);
-    if (result.success === 20) {
+    if (result.success === 1) {
       ElMessage.success('注册成功');
       isRegister.value = false;
       await router.push('/login');
@@ -69,9 +69,13 @@ const register = async () => {
 
 const login =async () => {
   let reslut = await userLoginService(registerdata.value)
-  ElMessage.success('登录成功')
-  tokenStore.setToken(reslut.data.token)
-   await router.push('/')
+  if (reslut.success === 1) {
+    ElMessage.success('登录成功');
+    tokenStore.setToken(reslut)
+    await router.push('/canteen')
+  } else {
+    ElMessage.error('登录失败');
+  }
 }
 
 //清空数据模型

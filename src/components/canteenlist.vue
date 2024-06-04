@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="hover" >
+  <el-card shadow="hover">
     <el-main>
       <el-row :gutter="20" class="main-content">
         <el-col :span="6">
@@ -16,7 +16,7 @@
       </el-row>
       <el-row :gutter="20" class="card-container">
         <el-col :span="8" v-for="(card, index) in cards" :key="index">
-          <el-card shadow="hover" >
+          <el-card shadow="hover">
             <template #header>
               <div>
                 <span>{{ card.name }}</span>
@@ -32,9 +32,16 @@
 
 <script setup>
 import { defineProps } from 'vue';
-import { ElCard, ElMain, ElRow, ElCol, ElCarousel, ElCarouselItem } from 'element-plus';
+import {
+  ElCard,
+  ElMain,
+  ElRow,
+  ElCol,
+  ElCarousel,
+  ElCarouselItem
+} from 'element-plus';
 
-// 定义传入的props
+// 定义传入的 props
 const props = defineProps({
   imageSrcs: {
     type: Array,
@@ -59,7 +66,6 @@ const props = defineProps({
 </script>
 
 <style scoped>
-
 .main-content {
   margin-bottom: 20px;
 }
@@ -67,7 +73,7 @@ const props = defineProps({
 .main-image {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 或者使用 cover */
+  object-fit: contain;
 }
 
 .card-container {

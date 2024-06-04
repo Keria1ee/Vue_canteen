@@ -1,5 +1,6 @@
 <script setup>
-import card from '@/views/canteenlist.vue'
+import orderlist from '@/views/orderlist.vue'
+import card from '@/components/canteenlist.vue'
 </script>
 
 <template>
@@ -11,8 +12,8 @@ import card from '@/views/canteenlist.vue'
 <!--      { name: 'Card 2', intro: 'test2' },-->
 <!--      { name: 'Card 3', intro: 'test3' }-->
 <!--      ]"></card>-->
+<router-view></router-view>
 
-  <router-view></router-view>
 </template>
 
 <style scoped>

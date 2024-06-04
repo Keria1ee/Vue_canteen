@@ -39,3 +39,15 @@ export const userLoginService = (loginData)=>{
     }
     return request.post('/user/login',params);
 }
+
+export const rePasswordService = (rePasswordData)=>{
+    const params = new URLSearchParams()
+    const allowedFields = ['email', 'password'];
+    for(let key in rePasswordData){
+        if (!allowedFields.includes(key)) {
+            continue;
+        }
+        params.append(key,rePasswordData[key]);
+    }
+    return request.post('/user/repassword',params);
+}

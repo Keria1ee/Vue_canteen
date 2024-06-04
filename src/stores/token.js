@@ -11,10 +11,15 @@ export const useTokenStore = defineStore("token",()=>{
         token.value = ''
 
     }
+
+    const getToken = ()=>{
+        return token.value;
+    }
     return {
         token,
         setToken,
-        removeToken
+        removeToken,
+        getToken
     }
 
 },

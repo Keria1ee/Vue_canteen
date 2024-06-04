@@ -16,6 +16,7 @@ import {ElMessage} from "element-plus";
 
 const router = useRouter()
 const tokenStore = useTokenStore()
+// const username = tokenStore.getToken().data.name
 const logout = async () => {
   tokenStore.removeToken()
   await router.push('/login')
@@ -67,6 +68,12 @@ const logout = async () => {
             </el-icon>
             <span>订单查看</span>
           </el-menu-item>
+          <el-menu-item index="/repassword">
+            <el-icon>
+              <EditPen />
+            </el-icon>
+            <span>修改密码</span>
+          </el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-aside>
@@ -74,7 +81,7 @@ const logout = async () => {
     <el-container>
       <!-- 头部区域 -->
       <el-header>
-        <div>用户：<strong>Würger</strong></div>
+        <div>用户：<strong>W</strong></div>
         <el-dropdown placement="bottom-end">
                         <span class="el-dropdown__box">
                             <el-avatar :src="avatar" />
