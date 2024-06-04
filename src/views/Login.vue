@@ -4,9 +4,11 @@ import { ref } from 'vue'
 import {userRegisterService , userLoginService} from '@/api/user.js'
 import {ElMessage} from "element-plus";
 import {useRouter} from 'vue-router'
+import {useTokenStore} from "@/stores/token.js";
 //控制注册与登录表单的显示， 默认显示注册
 const isRegister = ref(false)
 const router = useRouter()
+const tokenStore = useTokenStore()
 const registerdata = ref({
   email: '',
   password: '',
@@ -68,6 +70,7 @@ const register = async () => {
 const login =async () => {
   let reslut = await userLoginService(registerdata.value)
   ElMessage.success('登录成功')
+  tokenStore.setToken(reslut.data.token)
    await router.push('/')
 }
 

@@ -6,7 +6,20 @@ import {ElMessage} from 'element-plus';
 //定义一个变量,记录公共的前缀  ,  baseURL
 const baseURL = '/api';
 const instance = axios.create({baseURL})
+import {useTokenStore} from "@/stores/token.js";
 
+instance.interceptors.request.use(
+    config=>{
+        const token = useTokenStore().token;
+        if(token){
+            config.headers['Authorization'] = token;
+        }
+        return config;
+    },
+    err=>{
+        return Promise.reject(err);
+    }
+)
 
 //添加响应拦截器
 instance.interceptors.response.use(

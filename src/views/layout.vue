@@ -10,6 +10,17 @@ import {
   CaretBottom, Clock, ChatDotRound, Discount
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
+import {useTokenStore} from "@/stores/token.js";
+import {useRouter} from "vue-router";
+import {ElMessage} from "element-plus";
+
+const router = useRouter()
+const tokenStore = useTokenStore()
+const logout = async () => {
+  tokenStore.removeToken()
+  await router.push('/login')
+  ElMessage.success('退出成功')
+}
 </script>
 
 <template>
@@ -73,9 +84,8 @@ import avatar from '@/assets/default.png'
                         </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
-              <el-dropdown-item command="avatar" :icon="Crop">查看订单</el-dropdown-item>
-              <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
+              <el-dropdown-item command="profile" :icon="User">修改密码</el-dropdown-item>
+              <el-dropdown-item command="logout" :icon="SwitchButton" @click ="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

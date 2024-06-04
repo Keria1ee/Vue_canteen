@@ -7,10 +7,12 @@ import order from '/src/views/orderlist.vue'
 import buy from '/src/views/orderbuy.vue'
 import preorder from '/src/views/preorder.vue'
 import room from '/src/views/room.vue'
+import NotFound from '/src/views/Notfound.vue'
+import {useTokenStore} from "@/stores/token.js";
 const routes = [
     {path: '/login', component: login},
     {path: '/',
-        component: layout,redirect: '/canteen',
+        component: layout,redirect: '/login',
 
         children: [
             {path: '/canteen', component: canteen},
@@ -19,7 +21,8 @@ const routes = [
             {path: '/preorder', component: preorder},
             {path: '/room', component: room}
         ]
-    }
+    },
+    {path: '/:pathMatch(.*)*', name :'Not Found',component: NotFound}
 ]
 
 const router = createRouter({
@@ -27,5 +30,13 @@ const router = createRouter({
     routes: routes
 })
 
+// router.beforeEach((to, from, next) => {
+//     const token =useTokenStore().token;
+//     if (!token && to.path !== '/login') {
+//         next('/login');
+//     }else {
+//         next();
+//     }
+// })
 
 export default router
