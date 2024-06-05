@@ -3,7 +3,7 @@
     <el-main>
       <el-row :gutter="20" class="main-content">
         <el-col :span="6">
-          <el-carousel :interval="4000" height="200px">
+          <el-carousel :interval="4000" height="400px" >
             <el-carousel-item v-for="(src, index) in imageSrcs" :key="index">
               <img :src="src" alt="Image" class="main-image" />
             </el-carousel-item>
@@ -15,14 +15,18 @@
         </el-col>
       </el-row>
       <el-row :gutter="20" class="card-container">
-        <el-col :span="8" v-for="(card, index) in cards" :key="index">
+        <el-col :span="8" v-for="card in cards" :key="card.id">
           <el-card shadow="hover">
             <template #header>
               <div>
-                <span>{{ card.name }}</span>
+                <span>{{ card.dishname }}</span>
               </div>
             </template>
-            <p>{{ card.intro }}</p>
+            <span>{{card.describe}}</span>
+            <el-button type="primary"@click="order">购买</el-button>
+            <template #footer>
+              <span>价格:{{card.price}}</span>
+              </template>
           </el-card>
         </el-col>
       </el-row>
@@ -31,16 +35,18 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps,ref } from 'vue';
 import {
   ElCard,
   ElMain,
   ElRow,
   ElCol,
   ElCarousel,
-  ElCarouselItem
+  ElCarouselItem, ElMessage
 } from 'element-plus';
-
+import {onMounted} from "vue";
+import {dishidListService} from '@/api/canteen.js';
+import router from "@/router/index.js";
 // 定义传入的 props
 const props = defineProps({
   imageSrcs: {
@@ -55,14 +61,39 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  cards: {
+  cardinfom: {
     type: Array,
     required: true,
-    validator: value => {
-      return value.every(card => 'name' in card && 'intro' in card);
-    },
+    validator: value => value.length === 3,
   },
 });
+
+const cards = ref([]);
+
+const getdishList = async (specialid) => {
+  let result = await dishidListService(specialid);
+  try{
+    if (result.success === 1) {
+      cards.value = cards.value.concat(result.data);
+    } else {
+      ElMessage.error('获取菜品信息失败');
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const  order = () => {
+  const url = `/preorder`;
+  window.open(url, '_blank');
+}
+
+onMounted(() => {
+  for (let specialid of props.cardinfom){
+    getdishList(specialid);
+  }
+})
+
 </script>
 
 <style scoped>

@@ -1,10 +1,22 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-export const useTokenStore = defineStore("token",()=>{
+export const useTokenStore = defineStore("canteen-user",()=>{
     const token = ref('')
-
+    const data = ref('{}')
     const setToken = (newToken)=>{
         token.value = newToken;
+    }
+    const setData = (newData)=>{
+        data.value = JSON.stringify(newData);
+    }
+
+    const getData = ()=>{
+        return JSON.parse(data.value);
+    }
+
+
+    const removeData = ()=>{
+        data.value = ''
     }
 
     const removeToken = ()=>{
@@ -17,9 +29,13 @@ export const useTokenStore = defineStore("token",()=>{
     }
     return {
         token,
+        data,
         setToken,
         removeToken,
-        getToken
+        getToken,
+        setData,
+        getData,
+        removeData,
     }
 
 },

@@ -4,7 +4,7 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 import {addPreorder, getPreorderList} from '@/api/preorder.js'
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
 import {ElMessage, ElMessageBox} from "element-plus";
 const categorys = ref([
   {
@@ -36,6 +36,10 @@ const preorderlist = async () => {
 }
 
 const preorder = async (row) => {
+  if(row.quantity <= 0){
+    ElMessage.error('数量必须大于0');
+    return;
+  }
   // let result = await addPreorder(row.id, row.quantity);
   // //如果预定成功
   // if (result.success === 1) {
@@ -52,9 +56,36 @@ const preorder = async (row) => {
   //         type: 'error'
   //       }
   //   )
-  // }
+  //
+  //打印菜品信息
+  ElMessage.success('你已经成功预定了' + row['food name'] + ',数量为:' + row.quantity)
     row.disabled = true
 }
+
+const getStockList = async () => {
+  // let result = await getStockList();
+  //
+  // if (result.success === 1) {
+  //   categorys.value = result.data;
+  // } else {
+  //   ElMessage.error('获取菜品信息失败');
+  // }
+}
+
+// onMounted(() => {
+//   getStockList();
+// })
+
+const quantityRules = [
+  { validator: (rule, value, callback) => {
+      if (value <= 0) {
+        callback(new Error('数量必须大于0'));
+      } else {
+        callback();
+      }
+    }, trigger: 'blur' },
+];
+
 
 const isButtonDisabled = (orderTime) => {
   return new Date(orderTime) < userTime.value;
@@ -68,9 +99,6 @@ const isButtonDisabled = (orderTime) => {
     <template #header>
       <div class="header">
         <span>今日可预定菜品</span>
-        <div class="extra">
-          <el-button type="primary">添加分类</el-button>
-        </div>
       </div>
     </template>
     <el-table :data="categorys" style="width: 100%">
@@ -80,19 +108,24 @@ const isButtonDisabled = (orderTime) => {
       <el-table-column label="预约日期" prop="order time"></el-table-column>
       <el-table-column label="预定" width="200">
         <template #default="{ row }">
-          <el-input
-              v-model="row.quantity"
-              placeholder="数量"
-              style="width: 100px; margin-right: 10px;"
-          ></el-input>
-          <el-button
-              :icon="Edit"
-              circle
-              plain
-              type="primary"
-              :disabled="isButtonDisabled(row['order time']) || row.disabled"
-              @click="preorder(row)"
-          ></el-button>
+          <el-form :model="row" :rules="{ quantity: quantityRules }">
+            <el-form-item prop="quantity" class="input-button-group">
+              <el-input
+                  v-model="row.quantity"
+                  placeholder="数量"
+                  style="width: 100px; margin-right: 10px;"
+                  :disabled="isButtonDisabled(row['order time']) || row.disabled"
+              ></el-input>
+              <el-button
+                  :icon="Edit"
+                  circle
+                  plain
+                  type="primary"
+                  :disabled="isButtonDisabled(row['order time']) || row.disabled"
+                  @click="preorder(row)"
+              ></el-button>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
       <template #empty>
@@ -111,6 +144,11 @@ const isButtonDisabled = (orderTime) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .input-button-group {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

@@ -16,7 +16,7 @@ import {ElMessage} from "element-plus";
 
 const router = useRouter()
 const tokenStore = useTokenStore()
-// const username = tokenStore.getToken().data.name
+const name = useTokenStore().getData().email
 const logout = async () => {
   tokenStore.removeToken()
   await router.push('/login')
@@ -81,7 +81,7 @@ const logout = async () => {
     <el-container>
       <!-- 头部区域 -->
       <el-header>
-        <div>用户：<strong>W</strong></div>
+        <div>用户：<strong>{{name}}</strong></div>
         <el-dropdown placement="bottom-end">
                         <span class="el-dropdown__box">
                             <el-avatar :src="avatar" />

@@ -71,7 +71,8 @@ const login =async () => {
   let reslut = await userLoginService(registerdata.value)
   if (reslut.success === 1) {
     ElMessage.success('登录成功');
-    tokenStore.setToken(reslut)
+    tokenStore.setToken(reslut.token)
+    tokenStore.setData(reslut.data)
     await router.push('/canteen')
   } else {
     ElMessage.error('登录失败');

@@ -11,8 +11,9 @@ import {useTokenStore} from "@/stores/token.js";
 instance.interceptors.request.use(
     config=>{
         const token = useTokenStore().token;
+
         if(token){
-            config.headers['Authorization'] = token;
+            config.headers['token'] = token;
         }
         return config;
     },
