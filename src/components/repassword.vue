@@ -22,7 +22,6 @@ import { ElMessage } from 'element-plus';
 import {useTokenStore} from "@/stores/token.js";
 import {rePasswordService} from "@/api/user.js";
 import router from "@/router/index.js";
-const token = useTokenStore();
 const formRef = ref(null);
 
 const form = reactive({
@@ -54,18 +53,22 @@ const rules = {
 const submitForm = () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
-      const email = token.getToken().data.email;
+      const email = useTokenStore().getData().email
       const payload = {
         email,
         password: form.oldPassword,
         new_password: form.newPassword,
       };
-      // await rePasswordService(payload);
-      token.removeToken()
-      router.push('/login')
-      ElMessage.success('密码修改成功,请重新登录');
+      let result = await rePasswordService(payload);
+      if (result.success === 1) {
+        ElMessage.success('修改密码成功');
+        useTokenStore().removeToken();
+        await router.push('/login');
+      } else {
+        ElMessage.error(result.message);
+      }
     } else {
-      ElMessage.error('表单验证失败');
+      ElMessage.error('两次输入的新密码不一致');
       return false;
     }
   });

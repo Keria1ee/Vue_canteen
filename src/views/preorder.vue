@@ -16,13 +16,12 @@ const preorder = async (row) => {
     ElMessage.error('数量必须大于0');
     return;
   }
-
-  const payload = {
+  const payload = ref({
     id: row.id,
-    num: row.quantity,
-  }
-  console.log(payload)
-  let result = await addPreorder(payload);
+    num: row.quantity
+  });
+  console.log(payload.value)
+  let result = await addPreorder(payload.value);
   if (result.success === 1) {
     ElMessage.success('你已经成功预定了' + row['dishname'] + ',数量为:' + row.quantity);
     row.disabled = true
@@ -47,6 +46,7 @@ const getCategorys = async () => {
 
 onMounted(() => {
   getCategorys();
+
 })
 
 const quantityRules = [
@@ -60,7 +60,7 @@ const quantityRules = [
 ];
 
 const isButtonDisabled = (orderTime) => {
-  return new Date(orderTime) > userTime.value;
+  return new Date(orderTime) <   userTime.value;
 };
 
 
