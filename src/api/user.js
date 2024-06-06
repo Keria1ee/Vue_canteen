@@ -42,7 +42,7 @@ export const userLoginService = (loginData)=>{
 
 export const rePasswordService = (rePasswordData)=>{
     const params = new URLSearchParams()
-    const allowedFields = ['email', 'password'];
+    const allowedFields = ['email', 'password','new_password'];
     for(let key in rePasswordData){
         if (!allowedFields.includes(key)) {
             continue;

@@ -58,7 +58,7 @@ const submitForm = () => {
       const payload = {
         email,
         password: form.oldPassword,
-        newPassword: form.newPassword,
+        new_password: form.newPassword,
       };
       // await rePasswordService(payload);
       token.removeToken()
