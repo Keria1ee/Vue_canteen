@@ -16,17 +16,23 @@
       </el-row>
       <el-row :gutter="20" class="card-container">
         <el-col :span="8" v-for="card in cards" :key="card.id">
-          <el-card shadow="hover">
+          <el-card shadow="hover" class="card-container">
             <template #header>
               <div>
                 <span>{{ card.dishname }}</span>
               </div>
             </template>
-            <span>{{card.describe}}</span>
-            <el-button type="primary"@click="order">购买</el-button>
-            <template #footer>
-              <span>价格:{{card.price}}</span>
-              </template>
+            <div class="card-content">
+              <img :src="card.image" alt="Dish Image" class="card-image" />
+              <div class="card-details">
+                <span class="card-name">{{ card.dishname }}</span>
+                <span class="card-describe">{{ card.describe }}</span>
+                <div class="card-footer">
+                  <span>价格: {{ card.price }}</span>
+                  <el-button type="primary" @click="order">购买</el-button>
+                </div>
+              </div>
+            </div>
           </el-card>
         </el-col>
       </el-row>
@@ -111,7 +117,40 @@ onMounted(() => {
   margin-top: 20px;
 }
 
-.el-card {
-  text-align: center;
+.card-content {
+  display: flex;
+}
+
+.card-image {
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
+  object-fit: contain;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-name {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.card-describe {
+  margin-top: 10px;
+  color: #666;
+}
+
+.card-footer {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-footer span {
+  margin-right: 20px;
 }
 </style>

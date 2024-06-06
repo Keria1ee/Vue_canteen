@@ -12,7 +12,6 @@ const categorys = ref([
     "canteen": "七泽食堂",
     "food name": "炒饭",
     "order time": "2025-09-02 12:06:59",
-    "quantity": 0,
   },
   {
     "id": 4,
