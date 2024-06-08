@@ -19,7 +19,7 @@
           <el-card shadow="hover" class="card-container">
             <template #header>
               <div>
-                <span>{{ card.dishname }}</span>
+                <span>特色菜</span>
               </div>
             </template>
             <div class="card-content">

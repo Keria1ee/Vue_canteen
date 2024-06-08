@@ -16,7 +16,7 @@ import {ElMessage} from "element-plus";
 
 const router = useRouter()
 const tokenStore = useTokenStore()
-const name = useTokenStore().getData().email
+const name = useTokenStore().getData().name
 const logout = async () => {
   tokenStore.removeToken()
   await router.push('/login')
@@ -29,7 +29,7 @@ const logout = async () => {
     <!-- 左侧菜单 -->
     <el-aside width="400px">
       <div class="el-aside__logo"></div>
-      <el-menu active-text-color="#d9ead3" background-color="#7e9d5e"  text-color="#CEC7B2FF"
+      <el-menu active-text-color="#d9ead3" background-color="#6ea8f3"  text-color="#fff"
                router>
         <el-menu-item index="/canteen">
           <el-icon>
@@ -53,7 +53,7 @@ const logout = async () => {
           <el-icon>
             <Clock />
           </el-icon>
-          <span>房间预约</span>
+          <span>评论大厅</span>
         </el-menu-item>
         <el-sub-menu >
           <template #title>
@@ -112,7 +112,7 @@ const logout = async () => {
   height: 100vh;
 
   .el-aside {
-    background-color: #7e9d5e;
+    background-color: #6ea8f3;
 
     &__logo {
       height: 120px;

@@ -6,7 +6,7 @@
     </el-header>
     <el-main class="not-found-main">
       <p>对不起，你访问的页面不存在。</p>
-      <el-button type="primary" @click="goHome">返回首页</el-button>
+      <el-button type="primary" @click="goHome">返回上一界面</el-button>
     </el-main>
   </el-container>
 </template>
@@ -22,7 +22,7 @@ const router = useRouter();
 const goHome = () => {
   const token = useTokenStore().token;
   if (token){
-    router.push('/layout');
+    router.back()
   } else {
     router.push('/login');
 

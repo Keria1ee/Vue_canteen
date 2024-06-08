@@ -8,7 +8,7 @@
               <strong>订单编号:</strong> {{ order.orderid }}
             </el-col>
             <el-col :span="6">
-              <strong>菜品名称:</strong> {{ order.dishid }}
+              <strong>菜品名称:</strong> {{ order.dishname }}
             </el-col>
             <el-col :span="6">
               <strong>时间:</strong> {{ order.time }}
@@ -33,12 +33,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed,onMounted } from 'vue';
+import {getDish, getOrderList} from "@/api/orderlist.js";
+import {useTokenStore} from "@/stores/token.js";
 const orders = ref([
 ]);
 
 const currentPage = ref(1);
-const pageSize = 20;
+const pageSize = 10;
 
 const paginatedOrders = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
@@ -49,6 +51,45 @@ const paginatedOrders = computed(() => {
 const handlePageChange = (page) => {
   currentPage.value = page;
 };
+
+const getOrders = async () => {
+  const payload = {
+    uid: useTokenStore().getData().id,
+  };
+  let result = await getOrderList(payload);
+  try {
+    if (result.success === 1) {
+      orders.value = result.data;
+      for (let i = 0; i < orders.value.length; i++) {
+        orders.value[i].dishname = await getdishname(orders.value[i].dishid);
+      }
+    } else {
+      console.log('获取订单列表失败');
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const getdishname= async (dishid) => {
+  let result = await getDish(dishid);
+  try {
+    if (result.success === 1) {
+      return result.data.dishname;
+    } else {
+      console.log('获取菜品名称失败');
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
+onMounted(() => {
+  getOrders();
+
+});
+
 </script>
 
 <style scoped>
