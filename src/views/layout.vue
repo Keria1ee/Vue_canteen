@@ -55,6 +55,12 @@ const logout = async () => {
           </el-icon>
           <span>评论大厅</span>
         </el-menu-item>
+        <el-menu-item index="/baofang">
+          <el-icon>
+            <Crop />
+          </el-icon>
+          <span>包厢预约</span>
+        </el-menu-item>
         <el-sub-menu >
           <template #title>
             <el-icon>

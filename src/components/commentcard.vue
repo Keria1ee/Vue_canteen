@@ -11,7 +11,7 @@
       <p>{{ comment }}</p>
     </div>
     <div class="card-footer">
-      <el-rate :model-value="rating" :max="5" disabled show-score></el-rate>
+      <el-rate :model-value="rating" :max="5" disabled show-score @change="handleRatingChange"></el-rate>
       <span class="comment-time">{{ commentTime }}</span>
     </div>
   </el-card>
@@ -44,6 +44,11 @@ export default {
     commentTime: {
       type: String,
       required: true
+    }
+  },
+  methods: {
+    handleRatingChange(newRating) {
+      this.$emit('update:rating', newRating);
     }
   }
 };

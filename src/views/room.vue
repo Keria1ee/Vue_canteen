@@ -25,6 +25,7 @@
             :comment="comment.comment"
             :rating="comment.rating"
             :comment-time="comment.time"
+            @update:rating="(newRating) => comment.rating = newRating"
         />
         <el-pagination
             layout="prev, pager, next"
@@ -36,7 +37,6 @@
       </div>
     </el-main>
     <el-main v-if="adding">
-      <!-- 提交评论的界面 -->
       <el-form :model="commentForm" label-width="80px">
         <el-form-item label="选择菜品">
           <el-select v-model="commentForm.selectedDish" placeholder="请选择菜品">
