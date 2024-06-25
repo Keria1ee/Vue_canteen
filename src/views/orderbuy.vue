@@ -66,8 +66,11 @@ const quantityRules = [
 ];
 
 const isButtonDisabled = (orderTime) => {
-  return new Date(orderTime) > userTime.value;
+  const orderDate = new Date(orderTime);
+  const userDate = new Date(userTime.value);
+  return orderDate > userDate || userDate > new  Date(orderDate.getTime() + 12 * 60 * 60 * 1000);
 };
+
 
 
 const formatDate = (dateString) => {
@@ -81,9 +84,7 @@ const formatDate = (dateString) => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-const getDescribe=(row)=>{
 
-}
 
 </script>
 
@@ -96,35 +97,32 @@ const getDescribe=(row)=>{
     </template>
     <el-row :gutter="20">
       <el-col :span="24" v-for="category in categorys" :key="category.id">
-        <el-card shadow="hover">
+        <el-card shadow="hover" class="category-card">
           <template #header>
-            <div>
-              <span>{{ category['dishname'] }}</span>
+            <div class="card-header">
+              <span class="dish-name">{{ category['dishname'] }}</span>
             </div>
           </template>
           <div class="card-content">
             <!-- 食堂、预约日期和热量 -->
             <div class="card-details">
-
               <span>购买开始日期: {{ formatDate(category['time']) }}</span>
               <span>热量: {{ category.extend }}</span>
             </div>
             <div class="card-image-wrapper">
-              <el-image style="width: 300px; height: 300px" :src="category.image" :fit="cover"/>
-
+              <el-image style="width: 300px; height: 300px" :src="category.image" fit="cover" class="card-image"/>
             </div>
           </div>
           <template #footer>
             <div class="footer-container">
-              <span>价格: {{ category.price }}</span>
+              <span class="price">价格: {{ category.price }}元</span>
               <div class="footer-content">
                 <!-- el-form 和按钮 -->
                 <el-form :model="category" :rules="{ quantity: quantityRules }">
-                  <el-form-item prop="quantity" class="">
+                  <el-form-item prop="quantity">
                     <el-input
                         v-model="category.quantity"
                         placeholder="数量"
-                        style="width: 100px; margin-right: 10px;"
                         class="quantity-input"
                         :disabled="isButtonDisabled(category['time']) || category.disabled"
                     ></el-input>
@@ -152,33 +150,83 @@ const getDescribe=(row)=>{
 .page-container {
   min-height: 100%;
   box-sizing: border-box;
+  padding: 20px;
+  background-color: #f5f5f5;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.category-card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dish-name {
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 .card-content {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-details {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  font-size: 1em;
+  color: #606266;
+}
+
+.card-image-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-image {
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .footer-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 20px;
+}
+
+.price {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #409eff;
 }
 
 .footer-content {
   display: flex;
   align-items: center;
-  gap: 10px; /* 间距 */
+  gap: 10px;
 }
 
 .quantity-input {
@@ -187,10 +235,5 @@ const getDescribe=(row)=>{
 
 .order-button {
   margin-left: 10px;
-}
-
-
-.card-image-wrapper {
-  margin-left: auto;
 }
 </style>

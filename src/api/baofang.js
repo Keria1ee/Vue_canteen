@@ -11,3 +11,11 @@ export const reserveRoom = (data) => {
     }
     return request.post('/reservation/new_reservation',params);
 }
+
+export const getUserReserveList = (uid) => {
+    const params = new URLSearchParams();
+    params.append('uid', uid);
+    const queryString = params.toString();
+    const url = `/reservation/all_user?${queryString}`;
+    return request.get(url);
+}

@@ -11,6 +11,7 @@ import NotFound from '/src/components/Notfound.vue'
 import repassword from'@/components/repassword.vue'
 import {useTokenStore} from "@/stores/token.js";
 import baofang from "@/views/baofang.vue";
+import baofanglist from "@/views/baofanglist.vue";
 const routes = [
     {path: '/login', component: login},
     {path: '/',
@@ -23,7 +24,8 @@ const routes = [
             {path: '/preorder', component: preorder},
             {path: '/room', component: room},
             {path:'/repassword',component:repassword},
-            {path:'/baofang',component:baofang}
+            {path:'/baofang',component:baofang},
+            {path:'/baofanglist',component:baofanglist}
         ]
     },
     {path: '/:pathMatch(.*)*', name :'Not Found',component: NotFound}
