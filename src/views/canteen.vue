@@ -29,7 +29,7 @@ onMounted(() => {
       <card
           v-for="canteen in canteenList"
           :key="canteen.id"
-          :imageSrcs="['src/assets/st1.jpeg', 'src/assets/st2.jpeg', 'src/assets/st3.jpg']"
+          :imageSrcs="[canteen.image]"
       :mainText="canteen.name"
       :description="canteen.introduction"
           :cardinfom="[canteen.special1, canteen.special2, canteen.special3]"

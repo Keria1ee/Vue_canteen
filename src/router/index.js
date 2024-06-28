@@ -16,7 +16,6 @@ const routes = [
     {path: '/login', component: login},
     {path: '/',
         component: layout,redirect: '/login',
-
         children: [
             {path: '/canteen', component: canteen},
             {path: '/order', component: order},
